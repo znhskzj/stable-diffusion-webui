@@ -1,41 +1,29 @@
-# 使用 Docker Hub 镜像安装和运行 stable-diffusion-webui
+# 安装和运行 stable-diffusion-webui 使用 Docker
 
-这是一份指南，介绍如何在 Docker 容器中使用 Docker Hub 上的镜像安装和运行 `stable-diffusion-webui`。
+这是关于如何在 Docker 容器中安装和运行 `stable-diffusion-webui` 的指南。
 
 ## 准备工作
 
-1. **准备 docker-compose.yml 文件**:
-   - 在 VPS 上，创建一个新的目录用于存放 `docker-compose.yml` 文件，例如 `/opt/stable-diffusion-webui/`。
-   - 在该目录下创建 `docker-compose.yml` 文件。
+1. **本地构建镜像**:
+   - 在本地计算机上，创建一个新的目录用于存放 Docker 配置和相关文件，例如 `D:\program\stable_diffusion_webui\`。
+   - 在该目录下创建一个 `docker-compose.yml` 文件，用于构建镜像（详见下方内容）。
+   - 确保 `stable-diffusion-webui` 项目的 `requirements.txt` 文件和其他必要的配置文件位于同一目录下。
 
-## 安装和运行
+2. **VPS 部署**:
+   - 在 VPS 上，创建一个新的目录用于存放 Docker 配置，例如 `/opt/stable-diffusion-webui/`。
+   - 在该目录下创建一个 `docker-compose.yml` 文件，用于从 Docker Hub 拉取并运行镜像（详见下方内容）。
 
-1. **拉取并运行 Docker 镜像**:
-   - 在 `/opt/stable-diffusion-webui/` 目录下，打开终端并执行以下命令来拉取并运行 Docker 镜像：
-     ```bash
-     docker-compose up -d
-     ```
-   - `-d` 参数表示在后台运行容器。
+## 本地构建 Docker 镜像
 
-2. **访问应用**:
-   - 一旦容器启动，通过浏览器访问 `http://[您的VPS的IP地址]:7860` 即可使用 `stable-diffusion-webui` 应用。
+- 在本地的 `D:\program\stable_diffusion_webui\` 目录下，使用以下 `docker-compose.yml` 文件内容：
 
-## 注意事项
-
-- 确保您的 VPS 满足 `stable-diffusion-webui` 所需的硬件和软件要求。
-- 根据需要修改 docker-compose 文件中的端口设置。
-
-## docker-compose.yml 示例
-
-以下是 `docker-compose.yml` 文件的一个示例：
-
-```yaml
-version: '3.8'
-services:
-  stable-diffusion-webui:
-    image: wuxiami/myvps-stable-diffusion-webui:latest
-    ports:
-      - "7860:7860"
-    volumes:
-      - ./data:/opt/stable-diffusion-webui/data
-    restart: unless-stopped
+  ```yaml
+  version: '3.8'
+  services:
+    stable-diffusion-webui:
+      build: .
+      ports:
+        - "7860:7860"
+      volumes:
+        - ./data:/opt/stable-diffusion-webui/data
+      restart: unless-stopped
