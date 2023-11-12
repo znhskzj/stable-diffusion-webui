@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  stable-diffusion-webui:
+    build:
+      context: .
+      dockerfile: Dockerfile_stable_diffusion_webui
+    ports:
+      - "7860:7860"
+    volumes:
+      - ./data:/opt/stable-diffusion-webui/data
+    restart: unless-stopped
