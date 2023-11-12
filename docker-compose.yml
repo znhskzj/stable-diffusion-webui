@@ -1,11 +1,10 @@
 version: '3.8'
 services:
   stable-diffusion-webui:
-    build:
-      context: .
-      dockerfile: Dockerfile_stable_diffusion_webui
+    image: wuxiami/myvps-stable-diffusion-webui:latest
     ports:
       - "7860:7860"
     volumes:
       - ./data:/opt/stable-diffusion-webui/data
     restart: unless-stopped
+
